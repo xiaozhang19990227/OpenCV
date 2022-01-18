@@ -1,0 +1,24 @@
+// ConsoleApplication1.cpp : 定义控制台应用程序的入口点。
+
+#include "stdafx.h"
+
+#include "../opencv2/opencv.hpp"  
+#include "../opencv2/xfeatures2d.hpp"
+
+using namespace cv;
+using namespace std;
+
+int main() {
+	Mat img = imread("2.bmp", CV_LOAD_IMAGE_COLOR);
+	Ptr<Feature2D> sift = xfeatures2d::SIFT::create();
+	vector<KeyPoint> keypoints;
+	Mat descriptors;
+
+	sift->detectAndCompute(img, noArray(), keypoints, descriptors);
+	drawKeypoints(img, keypoints, descriptors, Scalar(0, 255, 255));
+	imshow("Result", descriptors);
+	waitKey(0);
+	destroyWindow("Result");
+
+	return 0;
+}
